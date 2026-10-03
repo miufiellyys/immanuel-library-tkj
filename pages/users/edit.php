@@ -1,6 +1,9 @@
 <?php
 $pageTitle = 'Edit Pengguna';
 $pageSubtitle = 'Perbarui data dan role pengguna';
+
+require_once __DIR__ . '/../../repositories/user-repository.php';
+$user = getUser();
 ?>
 
 <!DOCTYPE html>
@@ -12,14 +15,7 @@ $pageSubtitle = 'Perbarui data dan role pengguna';
   <link rel="stylesheet" href="../../styles/users/edit.css">
 </head>
 <body>
-  <?php
-  $user = [
-      "id"    => 2,
-      "name"  => "Budi Santoso",
-      "email" => "budi.santoso@siswa.ski.sch.id",
-      "role"  => "member",
-  ];
-  ?>
+
   <div class="app-shell">
     <?php require __DIR__ . '/../../components/admin/sidebar.php'; ?>
 
