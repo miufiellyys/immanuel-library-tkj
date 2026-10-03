@@ -1,3 +1,8 @@
+<?php
+$pageTitle = 'Manajemen Buku';
+$pageSubtitle = 'Kelola data buku, kategori, dan penulis';
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -20,11 +25,10 @@
   ];
   ?>
   <div class="app-shell">
-  
+    <?php require __DIR__ . '/../../components/admin/sidebar.php'; ?>
 
     <main class="app-main">
-
-
+        <?php require __DIR__ . '/../../components/admin/topbar.php'; ?>
       <div class="app-content">
         <div class="toolbar">
           <form method="" action="" class="toolbar-filters">
