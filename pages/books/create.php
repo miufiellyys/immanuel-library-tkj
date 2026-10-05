@@ -71,7 +71,7 @@ $authors = getAuthors();
                     <input type="checkbox" name="author_ids[]" value="<?= $index + 1 ?>">
                     <?= $authorName['name'] ?>
                   </label>
-                <?php endforeach; ?>x
+                <?php endforeach; ?>
               </div>
             </div>
 
