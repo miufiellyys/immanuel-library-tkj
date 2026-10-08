@@ -52,7 +52,7 @@ $authors = getAuthors();
                 <label for="category_id">Kategori</label>
                 <select id="category_id" name="category_id">
                   <?php foreach ($categories as $index => $category): ?>
-                    <?php $selected = (isset($book['category_id']) && ($index + 1) == $book['category_id']) ? 'selected' : ''; ?>
+                    <?php $selected = ($category['name'] == $book['category']) ? 'selected' : ''; ?>
                     <option value="<?= $index + 1 ?>" <?= $selected ?>><?= $category['name'] ?></option>
                   <?php endforeach; ?>
                 </select>
