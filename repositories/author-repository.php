@@ -17,6 +17,7 @@ function getAuthor () {
     "id" => 1,
     "name" => "Andrea Hirata",
     "total_books" => 1,
+    "bio" => "Andrea Hirata adalah seorang penulis Indonesia yang dikenal melalui karya Laskar Pelangi.",
   ];
 
   return $author;
