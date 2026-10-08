@@ -15,6 +15,7 @@ $users = getUsers();
   <link rel="stylesheet" href="../../styles/users/index.css">
 </head>
 
+<body>
   <div class="app-shell">
     <?php require __DIR__ . '/../../components/admin/sidebar.php'; ?>
 
