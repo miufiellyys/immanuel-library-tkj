@@ -1,9 +1,10 @@
 <?php
-$pageTitle = 'Manajemen Pengguna';
-$pageSubtitle = 'Daftar seluruh pengguna beserta perannya (role)';
+require_once __DIR__ . "/../../repositories/user-repository.php";
 
-require_once __DIR__ . '/../../repositories/user-repository.php';
 $users = getUsers();
+
+$pageTitle = "Manajemen Pengguna";
+$pageSubtitle = "Daftar seluruh pengguna beserta perannya (role)";
 ?>
 
 <!DOCTYPE html>
@@ -14,13 +15,12 @@ $users = getUsers();
   <title>Manajemen Pengguna - Perpustakaan Digital</title>
   <link rel="stylesheet" href="../../styles/users/index.css">
 </head>
-
 <body>
   <div class="app-shell">
-    <?php require __DIR__ . '/../../components/admin/sidebar.php'; ?>
+  <?php require_once __DIR__ . "/../../components/admin/sidebar.php" ?>
 
     <main class="app-main">
-      <?php require __DIR__ . '/../../components/admin/topbar.php'; ?>
+    <?php require_once __DIR__ . "/../../components/admin/topbar.php" ?>
 
       <div class="app-content">
         <div class="toolbar">
@@ -45,7 +45,7 @@ $users = getUsers();
               </tr>
             </thead>
             <tbody>
-              <?php foreach ($users as $index => $user) : ?>
+              <?php foreach ($users as $user): ?>
                 <tr>
                   <td>
                     <div class="cell-primary">
@@ -64,7 +64,8 @@ $users = getUsers();
                   <td>
                     <div class="cell-actions">
                       <a href="edit.php?id=<?= $user['id'] ?>" class="btn btn-outline btn-sm">Edit</a>
-                      <a href="../../actions/users/destroy.php?id=<?= $user['id']; ?>" onclick="return confirm('Yakin ingin menghapus data ini?');" class="btn btn-danger btn-sm">Hapus</a>
+                      <a href="../../actions/users/destroy.php?id=<?= $user['id'] ?>" class="btn btn-danger btn-sm"
+                        onclick="return confirm('Yakin ingin menghapus pengguna ini?')">Hapus</a>
                     </div>
                   </td>
                 </tr>

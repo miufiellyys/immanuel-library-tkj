@@ -1,9 +1,10 @@
 <?php
-$pageTitle = 'Edit Pengguna';
-$pageSubtitle = 'Perbarui data dan role pengguna';
+require_once __DIR__ . "/../../repositories/user-repository.php";
 
-require_once __DIR__ . '/../../repositories/user-repository.php';
 $user = getUser();
+
+$pageTitle = "Edit Pengguna";
+$pageSubtitle = "Perbarui data dan role pengguna";
 ?>
 
 <!DOCTYPE html>
@@ -15,15 +16,14 @@ $user = getUser();
   <link rel="stylesheet" href="../../styles/users/edit.css">
 </head>
 <body>
-
   <div class="app-shell">
-    <?php require __DIR__ . '/../../components/admin/sidebar.php'; ?>
+  <?php require_once __DIR__ . "/../../components/admin/sidebar.php" ?>
 
     <main class="app-main">
-      <?php require __DIR__ . '/../../components/admin/topbar.php'; ?>
+    <?php require_once __DIR__ . "/../../components/admin/topbar.php" ?>
 
       <div class="app-content">
-        <form method="post" action="../../actions/users/update.php">
+        <form method="POST" action="../../actions/users/update.php">
           <input type="hidden" name="id" value="<?= $user['id'] ?>">
           <div class="form-card">
             <div class="form-section-title">Data Pengguna</div>
@@ -47,7 +47,7 @@ $user = getUser();
 
             <div class="form-actions">
               <a href="index.php" class="btn btn-outline">Batal</a>
-              <button name="update" type="submit" class="btn btn-primary">Simpan Perubahan</button>
+              <button type="submit" name="update" class="btn btn-primary">Simpan Perubahan</button>
             </div>
           </div>
         </form>

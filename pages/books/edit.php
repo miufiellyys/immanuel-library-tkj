@@ -1,12 +1,14 @@
 <?php
-$pageTitle = 'Edit Buku';
-$pageSubtitle = 'Perbarui data buku, kategori, dan penulis';
-require '../../repositories/book-repository.php';
+require_once __DIR__ . "/../../repositories/book-repository.php";
+require_once __DIR__ . "/../../repositories/category-repository.php";
+require_once __DIR__ . "/../../repositories/author-repository.php";
+
 $book = getBook();
-require_once __DIR__ . '/../../repositories/category-repository.php';
 $categories = getCategories();
-require_once __DIR__ . '/../../repositories/author-repository.php';
 $authors = getAuthors();
+
+$pageTitle = "Edit Buku";
+$pageSubtitle = "Perbarui data buku, kategori, dan penulis";
 ?>
 
 <!DOCTYPE html>
@@ -19,13 +21,13 @@ $authors = getAuthors();
 </head>
 <body>
   <div class="app-shell">
-    <?php require __DIR__ . '/../../components/admin/sidebar.php'; ?>
+  <?php require_once __DIR__ . "/../../components/admin/sidebar.php" ?>
 
     <main class="app-main">
-      <?php require __DIR__ . '/../../components/admin/topbar.php'; ?>
+    <?php require_once __DIR__ . "/../../components/admin/topbar.php" ?>
 
       <div class="app-content">
-        <form method="post" action="../../actions/books/update.php">
+        <form method="POST" action="../../actions/books/update.php">
           <input type="hidden" name="id" value="<?= $book['id'] ?>">
           <div class="form-card" style="margin-bottom:20px;">
             <div class="form-section-title">Data Buku</div>
@@ -51,9 +53,8 @@ $authors = getAuthors();
               <div class="form-group">
                 <label for="category_id">Kategori</label>
                 <select id="category_id" name="category_id">
-                  <?php foreach ($categories as $index => $category): ?>
-                    <?php $selected = ($category['name'] == $book['category']) ? 'selected' : ''; ?>
-                    <option value="<?= $index + 1 ?>" <?= $selected ?>><?= $category['name'] ?></option>
+                  <?php foreach ($categories as $category): ?>
+                    <option value="<?= $category['id'] ?>" <?= $category['id'] === $book['category_id'] ? 'selected' : '' ?>><?= $category['name'] ?></option>
                   <?php endforeach; ?>
                 </select>
               </div>
@@ -69,10 +70,10 @@ $authors = getAuthors();
             <div class="form-group">
               <label>Pilih Penulis (bisa lebih dari satu)</label>
               <div class="checkbox-grid">
-                <?php foreach ($authors as $index => $authorName): ?>
-                  <?php $authorId = $index + 1; ?>
+                <?php foreach ($authors as $author): ?>
                   <label class="checkbox-item">
-                    <input type="checkbox" name="author_ids[]" value="<?= $authorId ?>" <?= in_array($authorName['name'], $book['authors'] ?? []) ? 'checked' : '' ?>>
+                    <input type="checkbox" name="author_ids[]" value="<?= $author['id'] ?>" <?= in_array($author['id'], $book['author_ids']) ? 'checked' : '' ?>>
+                    <?= $author['name'] ?>
                   </label>
                 <?php endforeach; ?>
               </div>
@@ -80,7 +81,7 @@ $authors = getAuthors();
 
             <div class="form-actions">
               <a href="index.php" class="btn btn-outline">Batal</a>
-              <button name="update" type="submit" class="btn btn-primary">Simpan Perubahan</button>
+              <button type="submit" name="update" class="btn btn-primary">Simpan Perubahan</button>
             </div>
           </div>
         </form>
