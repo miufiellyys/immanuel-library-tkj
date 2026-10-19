@@ -56,4 +56,7 @@ try {
     }
 }
 
+#proses update buku dilakukan dengan menghapus semua data author yang terkait dengan buku tersebut di tabel book_author, kemudian menambahkan kembali data author yang baru sesuai dengan inputan dari form. Hal ini dilakukan untuk memastikan bahwa data author yang terkait dengan buku tersebut selalu sesuai dengan inputan terbaru dari form, sehingga tidak terjadi duplikasi atau ketidaksesuaian data.
+
+#array column digunakan untuk mengambil data secara spesifik dan in array mengecek apakaha semua item ada di dalam array
 ?>

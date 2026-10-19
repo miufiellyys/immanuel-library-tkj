@@ -6,7 +6,7 @@ function getBooks()
   global $pdo;
   $query = "select b.id, b.title, b.stock, c.name as category from books b
            left join categories c on b.category_id = c.id
-          ";
+          "; #pakai alias untuk mempersingkat penulisan nama tabel, misal b untuk books, c untuk categories, sehingga tidak perlu menulis books.title, categories.name, cukup b.title, c.name saja serta pakai b.id supaya mysql tidak bingung karena ada id di books dan categories, jadi harus spesifik menulis b.id supaya mysql tau yang mana yang dimaksud
   $stmt = $pdo->prepare($query);
   $stmt->execute();
   $books = $stmt->fetchAll();
@@ -40,6 +40,7 @@ function getBook($id)
     ]);
 
   $book = $stmt->fetch();
+  #fetch mengambil satu data
 
   if(!$book){
     header("Location: ../pages/books/index.php");
@@ -54,7 +55,7 @@ function getBook($id)
     'book_id' => $book['id']
   ]);
 
-  $authorIds = $stmt->fetchAll();
+  $authorIds = $stmt->fetchAll();  #fecthAll mengambil semua data
   $book['author_ids'] = array_column($authorIds, 'id');
   
   return $book;
