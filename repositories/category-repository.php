@@ -5,7 +5,11 @@ function getCategories()
 {
   global $pdo;
 
-  $query = "select * from categories";
+  $query = "select c.id, c.name, c.description,
+            count(b.id) as total_books
+            from categories c
+            left join books b on c.id = b.category_id
+            group by c.id, c.name, c.description";
   $stmt = $pdo->prepare($query);
   $stmt->execute();
 
