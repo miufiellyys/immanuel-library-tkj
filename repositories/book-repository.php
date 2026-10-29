@@ -1,25 +1,45 @@
 <?php
 require_once __DIR__ . "/../config/database.php";
 
-function getBooks()
+function getBooks($search, $categoryId, $page, $perPage)
 {
   global $pdo;
   $query = "select b.id, b.title, b.stock, c.name as category from books b
            left join categories c on b.category_id = c.id
-          "; #pakai alias untuk mempersingkat penulisan nama tabel, misal b untuk books, c untuk categories, sehingga tidak perlu menulis books.title, categories.name, cukup b.title, c.name saja serta pakai b.id supaya mysql tidak bingung karena ada id di books dan categories, jadi harus spesifik menulis b.id supaya mysql tau yang mana yang dimaksud
+           where b.title like :search
+           and (:category_filter = '' or b.category_id = :category_id)
+           order by b.id desc
+           limit :limit offset :offset"; #pakai alias untuk mempersingkat penulisan nama tabel, misal b untuk books, c untuk categories, sehingga tidak perlu menulis books.title, categories.name, cukup b.title, c.name saja serta pakai b.id supaya mysql tidak bingung karena ada id di books dan categories, jadi harus spesifik menulis b.id supaya mysql tau yang mana yang dimaksud
   $stmt = $pdo->prepare($query);
+  $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
+  $stmt->bindValue(':category_filter', $categoryId, PDO::PARAM_STR);
+  $stmt->bindValue(':category_id', $categoryId, PDO::PARAM_INT);
+  $stmt->bindValue(':limit', (int) $perPage, PDO::PARAM_INT);
+  $stmt->bindValue(':offset', (int) (($page - 1) * $perPage), PDO::PARAM_INT);
+
   $stmt->execute();
   $books = $stmt->fetchAll();
+  if (!$books) {
+    return [];
+  }
+
+  $bookIds = array_column($books, 'id');
+  $bookIdPlaceholders = [];
+  $parameters = [];
+  foreach ($bookIds as $index => $bookId) {
+    $placeholder = ":book_id_$index";
+    $bookIdPlaceholders[] = $placeholder;
+    $parameters["book_id_$index"] = $bookId;
+  }
 
   $query = "select ba.book_id, a.name from book_author ba
            left join authors a on ba.author_id = a.id
-           ";
+           where ba.book_id in (" . implode(", ", $bookIdPlaceholders) . ")";
   $stmt = $pdo->prepare($query);
-  $stmt->execute();
-  $bookAuthors = $stmt->fetchAll();
+  $stmt->execute($parameters);
 
   $bookByAuthors = [];
-  foreach ($bookAuthors as $bookAuthor) {
+  foreach ($stmt->fetchAll() as $bookAuthor) {
     $bookByAuthors[$bookAuthor['book_id']][] = $bookAuthor['name'];
   }
   foreach ($books as $index => $book) {
@@ -43,7 +63,7 @@ function getBook($id)
   #fetch mengambil satu data
 
   if(!$book){
-    header("Location: ../pages/books/index.php");
+    header("Location: index.php");
     exit();
   }
 
@@ -61,21 +81,34 @@ function getBook($id)
   return $book;
 }
 
-function isIsbnTaken($isbn, $IgnoredBookId) 
+function isIsbnTaken($isbn, $ignoreBookId) 
 {
   global $pdo;
 
-  $bookId = intval($IgnoredBookId);
-
-  $query = "select count(id) from books where isbn = :isbn && id  != :book_id";
+  $query = "select count(id) from books where isbn = :isbn and id  != :book_id";
 
   $stmt = $pdo->prepare($query);
   $stmt->execute([
     'isbn' => $isbn,
-    'book_id' => $bookId
+    'book_id' => (int) $ignoreBookId
   ]);
 
-  $isIsbnTaken = $stmt->fetchColumn() > 0;
+   return $stmt->fetchColumn() > 0;
+}
 
-  return $isIsbnTaken;
+function countOfBooks($search, $categoryId)
+{
+  global $pdo;
+
+  $query = "select count(id) from books
+            where title like :search
+            and (:category_filter = '' or category_id = :category_id)";
+  $stmt = $pdo->prepare($query);
+  $stmt->execute([
+    'search' => "%$search%",
+    'category_filter' => $categoryId,
+    'category_id' => $categoryId
+  ]);
+
+  return (int) $stmt->fetchColumn();
 } 
