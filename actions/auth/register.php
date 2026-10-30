@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . "/../../config/database.php";
+require_once __DIR__ . "/../../config/database.php"; #petik 1 tak bisa baca isi variabel langsung tapi kalau petik 2 bisa baca langsung
 require_once __DIR__ . "/../../validations/auth-validation.php";
 
 if (isset($_POST['register']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -29,7 +29,7 @@ if (isset($_POST['register']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([
             'name' => $request['name'],
             'email' => $request['email'],
-            'password' => password_hash($request['password'], PASSWORD_BCRYPT),
+            'password' => password_hash($request['password'], PASSWORD_BCRYPT), #hash 1 arah kalau decrpyt 2 arah jadi kalau kesimpan sebagai $abcd, maka hash tidak bisa dilihat tapi hasilnya bakalan jadi $abcd juga
             'role' => 'member'
         ]); 
         

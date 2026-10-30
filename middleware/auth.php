@@ -1,7 +1,9 @@
-<?php
+<?php //middleware sebagai satpam, kaya buat cek dia udah login belum lalu rolenya apa
 const LOGIN_URL = "/pages/auth/login.php";
 const BOOK_INDEX_URL = "/pages/books/index.php";
 const FORBIDDEN_URL = "/pages/errors/403.php";
+
+#limiter digunakan untuk mengatasi bot yang spam buat login jadi misal cuman bisa 3 coba lalu kalau salah harus tunggu berapa menit dan tergantung web developernya
 
 //Mengecek apakah sebuah session itu sudah dimulai atau belum, jika belum maka session akan dimulai 
 function sessionStart() {

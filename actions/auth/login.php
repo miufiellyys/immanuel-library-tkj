@@ -11,7 +11,7 @@ if(isset($_POST['login']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (count($errors) === 0) {
             $user = getUserByEmail($request['email']);
-            if(!$user && !password_verify($request['password'], $user['password'])) {
+            if(!$user && !password_verify($request['password'], $user['password'])) { #cek passwordnya sama atau tidak (dalam hash)
                 $errors['login'] = "Email atau kata sandi salah";
             }
         }

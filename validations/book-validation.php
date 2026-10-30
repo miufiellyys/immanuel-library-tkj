@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/../repositories/book-repository.php";
+require_once __DIR__ . "/../repositories/book-repository.php"; #input admin, browser akan mengecek apa saja yang wajib diisi dan sudah diisi belum
 require_once __DIR__ . "/../repositories/category-repository.php";
 require_once __DIR__ . "/../repositories/author-repository.php";
 

@@ -8,7 +8,7 @@ $perPage = 2;
 $currentPage = max(1, intval(($_GET['page'] ?? 1)));
 
 $search = trim($_GET['search'] ?? "");
-$categoryId = trim($_GET['category_id'] ?? "");
+$categoryId = trim($_GET['category_id'] ?? ""); #datanya tuh apa string atau array kalau array pakai [], kalau string pakai ""
 if (!ctype_digit($categoryId)) {
   $categoryId = "";
 }

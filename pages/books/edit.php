@@ -1,5 +1,6 @@
 <?php
-session_start();
+session_start(); #menyimpan data sementara kalau disimpan di server tidak smeua bisa mengaksesnya kalau di broswer bisa diubah di browser, id session di simpan di cookies
+#praktik yang baik dan aman pakai session_regenerated_id untuk login biasa biar mulai session baru, pas logout hapus sessionnya 
 require_once __DIR__ . "/../../repositories/book-repository.php";
 require_once __DIR__ . "/../../repositories/category-repository.php";
 require_once __DIR__ . "/../../repositories/author-repository.php";
@@ -11,7 +12,9 @@ $authors = getAuthors();
 
 $errors = $_SESSION['errors'] ?? [];
 $old = $_SESSION['old'] ?? [];
-unset($_SESSION['errors'], $_SESSION['old']);
+unset($_SESSION['errors'], $_SESSION['old']); #unset berfungsi untuk menhapus 1 elemen saja misal di dalam array ada 3 isinya ["Felix", "Edward", "Dexter"], dengan unset kita bisa menghapus 1 data bisa unset($names[0])
+
+#kalau session_destroyed menghapus semua session sehingga berbeda dengan unset
 
 $book = array_merge($book, $old);
 
